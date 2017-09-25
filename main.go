@@ -7,13 +7,13 @@ import(
 	"os"
 )
 
-func handlePost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func handleArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	len := r.ContentLength
 	body := make([]byte, len)
 	r.Body.Read(body)
 
-	// Create post
-	datastore.Create(body)
+	// Create art
+	datastore.CreateArt(body)
 
 	w.WriteHeader(200)
 	return
@@ -26,7 +26,7 @@ func main() {
 		port = "5000"
 	}
 
-    router.POST("/post", handlePost)
+    router.POST("/v1/art", handleArt)
 
 	http.ListenAndServe(":" + port, router)
 }
