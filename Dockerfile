@@ -10,11 +10,12 @@ WORKDIR $GOPATH/src/github.com/r21nomi/arto-api
 # go get all of the dependencies
 RUN go get -u github.com/golang/dep/cmd/dep
 RUN dep ensure
+RUN go build -o arto-api
 
 # Set up app
 # ADD . /app
 
-EXPOSE 80
+EXPOSE 5000
 
-# CMD ["/arto-api"]
-CMD go run main.go
+# CMD go run main.go  // This doesn't work on EB
+CMD ["./arto-api"]
