@@ -2,6 +2,7 @@ package main
 
 import(
 	"github.com/r21nomi/arto-api/datastore"
+	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"os"
@@ -19,6 +20,10 @@ func handleArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	return
 }
 
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+    fmt.Fprint(w, "Welcome!\n")
+}
+
 func main() {
 	router := httprouter.New()
 	port := os.Getenv("PORT")
@@ -26,7 +31,9 @@ func main() {
 		port = "5000"
 	}
 
-    router.POST("/v1/art", handleArt)
+	router.POST("/v1/art", handleArt)
+	
+	router.GET("/", Index)
 
 	http.ListenAndServe(":" + port, router)
 }

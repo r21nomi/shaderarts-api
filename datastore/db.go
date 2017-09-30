@@ -10,12 +10,12 @@ var Db *gorm.DB
 
 func init() {
 	var DBMS = "postgres"
-	var DB_USER = os.Getenv("DB_USER")
-	var DB_NAME = os.Getenv("DB_NAME")
-	var DB_PASSWORD = os.Getenv("DB_PASSWORD")
+	var RDS_USERNAME = os.Getenv("RDS_USERNAME")
+	var RDS_DB_NAME = os.Getenv("RDS_DB_NAME")
+	var RDS_PASSWORD = os.Getenv("RDS_PASSWORD")
 
 	var err error
-	Db, err = gorm.Open(DBMS, "user=" + DB_USER + " dbname=" + DB_NAME + " password=" + DB_PASSWORD + " sslmode=disable")
+	Db, err = gorm.Open(DBMS, "user=" + RDS_USERNAME + " dbname=" + RDS_DB_NAME + " password=" + RDS_PASSWORD + " sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
