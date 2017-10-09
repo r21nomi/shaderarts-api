@@ -28,7 +28,7 @@ func main() {
 	router := httprouter.New()
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "5000"
+		port = "9000"
 	}
 
 	router.POST("/v1/art", handleArt)
