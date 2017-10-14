@@ -6,9 +6,13 @@ import(
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"os"
+	"log"
 )
 
-func handleArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+/**
+ * Create Art.
+ */
+func handlePostArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	len := r.ContentLength
 	body := make([]byte, len)
 	r.Body.Read(body)
@@ -20,7 +24,29 @@ func handleArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	return
 }
 
-func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+/**
+ * Get Arts.
+ */
+func handleGetArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	len := r.ContentLength
+	body := make([]byte, len)
+	r.Body.Read(body)
+
+	//　Query param
+	queryValues := r.URL.Query()
+	log.Printf("limit: %s\n", queryValues.Get("limit"))
+
+	// Get Arts
+	bytes, err := datastore.GetArt()
+	if err != nil {
+		fmt.Fprint(w, "error")
+        return
+    }
+
+	fmt.Fprint(w, string(bytes))
+}
+
+func handleIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "Welcome!\n")
 }
 
@@ -31,9 +57,9 @@ func main() {
 		port = "9000"
 	}
 
-	router.POST("/v1/art", handleArt)
-	
-	router.GET("/", Index)
+	router.POST("/v1/art", handlePostArt)
+	router.GET("/v1/art", handleGetArt)
+	router.GET("/", handleIndex)
 
 	http.ListenAndServe(":" + port, router)
 }

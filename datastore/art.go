@@ -25,3 +25,12 @@ func CreateArt(body []byte) {
 	// Create
 	Db.Create(&art)
 }
+
+func GetArt() ([]byte, error) {
+	arts := []Art{}
+
+	// Get all Arts
+	Db.Find(&arts)
+	
+	return json.Marshal(arts)
+}
