@@ -1,2 +1,2 @@
 # arto-api
-API for Arto.
+API for Arto

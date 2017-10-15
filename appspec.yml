@@ -3,3 +3,6 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/go/src/github.com/r21nomi/arto-api
+hooks:
+  AfterInstall:
+    - location: script/build.sh
