@@ -43,6 +43,7 @@ func handleGetArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
         return
     }
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Fprint(w, string(bytes))
 }
 
