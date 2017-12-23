@@ -25,5 +25,5 @@ func init() {
 	if err != nil {
 			panic(err)
 	}
-	Db.AutoMigrate(&Art{})
+	Db.AutoMigrate(&User{}, &Art{})
 }

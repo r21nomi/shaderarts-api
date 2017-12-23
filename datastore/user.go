@@ -5,15 +5,27 @@ import(
 )
 
 type User struct {
-	Id int
-	Name string
+	Id string `json:"id"`
+	Token string `json:"token"`
+	Name string `json:"name"`
 }
 
-func CreateUser(body []byte) {
+func CreateUser(id string, token string, name string) {
 	// JSON Parse
 	var user User
-	json.Unmarshal(body, &user)
+	user.Id = id
+	// An error will happen if try to set plain token (Error 1406: Data too long for column 'token' at row 1)
+	// user.Token = token
+	user.Name = name
 
-	// Create
-	Db.Create(&user)
+	// Create or update
+	Db.Save(&user)
+}
+
+func GetUser(id string) ([]byte, error) {
+	user := User{}
+	
+	Db.Where("id = ?", id).First(&user)
+		
+	return json.Marshal(user)
 }
