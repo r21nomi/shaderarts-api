@@ -51,6 +51,7 @@ func handleGetArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
         return
     }
 
+	log.Printf("arts: %s\n", string(bytes))
 	fmt.Fprint(w, string(bytes))
 }
 
@@ -80,6 +81,7 @@ func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 		fmt.Fprint(w, "can not get user.")
         return
 	}
+	log.Printf("user: %s\n", string(bytes))
 	
 	fmt.Fprint(w, string(bytes))
 }
@@ -109,8 +111,6 @@ func verifyIDToken(app *firebase.App, idToken string) *auth.Token {
 	if err != nil {
 		log.Fatalf("error verifying ID token: %v\n", err)
 	}
-
-	log.Printf("Verified ID token: %v\n", token.UID)
 
 	return token
 }
