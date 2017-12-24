@@ -50,6 +50,12 @@
   version = "v1.1"
 
 [[projects]]
+  name = "github.com/rs/cors"
+  packages = ["."]
+  revision = "7af7a1e09ba336d2ea14b1ce73bf693c6837dbf6"
+  version = "v1.2"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp","http2","http2/hpack","idna","internal/timeseries","lex/httplex","trace"]
@@ -94,6 +100,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b1505d9fe9c2c8547d1b21af7617f1a10320b5c11f39bd0163dd439fb5258bad"
+  inputs-digest = "5888a0a1d225f785ee6f617c33002145243e7d01e2f4c4bfb60a856e45b1ed0a"
   solver-name = "gps-cdcl"
   solver-version = 1

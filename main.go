@@ -5,6 +5,7 @@ import(
 	"github.com/r21nomi/arto-api/domain"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
+	"github.com/rs/cors"
 	"net/http"
 	"os"
 	"log"
@@ -50,7 +51,6 @@ func handleGetArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
         return
     }
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Fprint(w, string(bytes))
 }
 
@@ -81,7 +81,6 @@ func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params
         return
 	}
 	
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Fprint(w, string(bytes))
 }
 
@@ -130,5 +129,12 @@ func main() {
 	router.GET("/v1/login", handleGetLogin)
 	router.GET("/", handleIndex)
 
-	http.ListenAndServe(":" + port, router)
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders: []string{"X-Token"},
+	})
+	handler := c.Handler(router)
+
+	http.ListenAndServe(":" + port, handler)
 }
