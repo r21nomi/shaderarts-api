@@ -19,7 +19,7 @@ func CreateUser(id string, token string, name string) {
 	user.Name = name
 
 	// Create or update
-	Db.Save(&user)
+	Db.Where("id = ?", id).Assign(user).FirstOrCreate(&user)
 }
 
 func GetUser(id string) ([]byte, error) {
