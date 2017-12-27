@@ -4,6 +4,8 @@ import(
 	"github.com/r21nomi/arto-api/datastore"
 )
 
-func SetUser(id string, token string, name string) {
+type SetUser struct{}
+
+func (s *SetUser) Execute(id string, token string, name string) {
 	datastore.CreateUser(id, token, name)
 }

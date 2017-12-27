@@ -4,6 +4,8 @@ import(
 	"github.com/r21nomi/arto-api/datastore"
 )
 
-func GetUser(id string) ([]byte, error) {
+type GetUser struct{}
+
+func (g *GetUser) Execute(id string) ([]byte, error) {
 	return datastore.GetUser(id)
 }

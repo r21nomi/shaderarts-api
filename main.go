@@ -74,9 +74,11 @@ func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 		log.Fatalf("error getting User: %v\n", err)
 	}
 
-	domain.SetUser(authToken.UID, token, user.UserInfo.DisplayName)
+	setUser := domain.SetUser{}
+	setUser.Execute(authToken.UID, token, user.UserInfo.DisplayName)
 
-	bytes, err := domain.GetUser(authToken.UID)
+	getUser := domain.GetUser{}
+	bytes, err := getUser.Execute(authToken.UID)
 	if err != nil {
 		fmt.Fprint(w, "can not get user.")
         return
