@@ -14,8 +14,7 @@ func CreateUser(id string, token string, name string) {
 	// JSON Parse
 	var user User
 	user.Id = id
-	// An error will happen if try to set plain token (Error 1406: Data too long for column 'token' at row 1)
-	// user.Token = token
+	user.Token = token
 	user.Name = name
 
 	// Create or update

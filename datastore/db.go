@@ -26,4 +26,5 @@ func init() {
 			panic(err)
 	}
 	Db.AutoMigrate(&User{}, &Art{})
+	Db.Model(&User{}).ModifyColumn("token", "text")
 }
