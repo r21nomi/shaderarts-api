@@ -2,18 +2,20 @@ package datastore
 
 import(
 	"encoding/json"
+	"time"
 )
 
 type User struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 	Token string `json:"token"`
 	Name string `json:"name"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func CreateUser(id string, token string, name string) {
-	// JSON Parse
 	var user User
-	user.Id = id
+	user.ID = id
 	user.Token = token
 	user.Name = name
 
@@ -25,6 +27,6 @@ func GetUser(id string) ([]byte, error) {
 	user := User{}
 	
 	Db.Where("id = ?", id).First(&user)
-		
+
 	return json.Marshal(user)
 }

@@ -15,7 +15,7 @@ func init() {
 	var PASS = os.Getenv("RDS_PASS")
 	var PROTOCOL = "tcp(" + os.Getenv("RDS_PROTOCOL") + ")"
 	var DBNAME = os.Getenv("RDS_DBNAME")
-	var CONNECT = USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME
+	var CONNECT = USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
 
 	log.Printf("RDS_USERNAME: %s\n\n", USER)
 	log.Printf("RDS_DB_NAME: %s\n\n", DBNAME)

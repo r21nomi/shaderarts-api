@@ -3,37 +3,45 @@ package datastore
 import(
 	"encoding/json"
 	"github.com/rs/xid"
+	"time"
 )
 
 type Art struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 	Title string `json:"title"`
-	User_Id string `json:"user_id"`
+	UserID string `json:"user_id"`
+	User User `gorm:"ForeignKey:UserID;AssociationForeignKey:ID"`
 	Type int `json:"type"`
 	Thumb string `json:"thumb"`
 	Src string `json:"src"`
 	Description string `json:"description"`
-	// Tag []string `json:"tag"`
 	Star int `json:"star"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // Method name must be uper camel case to be able to be accessed from another class.
-func CreateArt(body []byte) {
-	// JSON Parse
+func CreateArt(userID string, body []byte) {
 	var art Art
 	guid := xid.New()
-	art.Id = guid.String()
+	art.ID = guid.String()
+	art.UserID = userID
 	json.Unmarshal(body, &art)
 
 	// Create
 	Db.Create(&art)
 }
 
-func GetArt() ([]byte, error) {
-	arts := []Art{}
-
-	// Get all Arts
-	Db.Find(&arts)
-	
-	return json.Marshal(arts)
+func GetArts() (arts []Art) {
+    // Get all Arts
+    Db.Find(&arts)
+    for i, _ := range arts {
+        Db.Model(arts[i]).Related(&arts[i].User)
+    }
+    return
 }
+
+func getArt(id string) (art Art) {
+	Db.First(&art, "id = ?", id).Related(&art.User)
+	return
+  }

@@ -12,6 +12,7 @@ import(
 	"golang.org/x/net/context"
 	firebase "firebase.google.com/go"
 	"google.golang.org/api/option"
+	"encoding/json"
 )
 
 var app *firebase.App
@@ -24,8 +25,18 @@ func handlePostArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	body := make([]byte, len)
 	r.Body.Read(body)
 
+	token := r.Header.Get("X-Token")
+	log.Printf("token: %s\n", token)
+
+	getUserID := domain.GetUserID{}
+	userID, err := getUserID.Execute(app, token)
+
+	if err != nil {
+		log.Fatalf("error getting Auth client: %v\n", err)
+	}
+
 	// Create art
-	datastore.CreateArt(body)
+	datastore.CreateArt(userID, body)
 
 	w.WriteHeader(200)
 	return
@@ -44,11 +55,13 @@ func handleGetArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 	log.Printf("limit: %s\n", queryValues.Get("limit"))
 
 	// Get Arts
-	bytes, err := datastore.GetArt()
+	arts := datastore.GetArts()
+	bytes, err := json.Marshal(arts)
+
 	if err != nil {
 		fmt.Fprint(w, "error")
         return
-    }
+	}
 
 	log.Printf("arts: %s\n", string(bytes))
 	fmt.Fprint(w, string(bytes))
