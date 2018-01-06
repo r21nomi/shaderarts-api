@@ -11,7 +11,6 @@ import(
 	"log"
 	"golang.org/x/net/context"
 	firebase "firebase.google.com/go"
-	"firebase.google.com/go/auth"
 	"google.golang.org/api/option"
 )
 
@@ -63,22 +62,23 @@ func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 	token := r.Header.Get("X-Token")
 	log.Printf("token: %s\n", token)
 
-	authToken := verifyIDToken(app, token)
+	getUserID := domain.GetUserID{}
+	userID, err := getUserID.Execute(app, token)
 
 	client, err := app.Auth(context.Background())
 	if err != nil {
 		log.Fatalf("error getting Auth client: %v\n", err)
 	}
-	user, err := client.GetUser(context.Background(), authToken.UID)
+	user, err := client.GetUser(context.Background(), userID)
 	if err != nil {
 		log.Fatalf("error getting User: %v\n", err)
 	}
 
 	setUser := domain.SetUser{}
-	setUser.Execute(authToken.UID, token, user.UserInfo.DisplayName)
+	setUser.Execute(userID, token, user.UserInfo.DisplayName)
 
 	getUser := domain.GetUser{}
-	bytes, err := getUser.Execute(authToken.UID)
+	bytes, err := getUser.Execute(userID)
 	if err != nil {
 		fmt.Fprint(w, "can not get user.")
         return
@@ -101,20 +101,6 @@ func initializeAppWithServiceAccount() *firebase.App {
 	}
 
 	return app
-}
-
-func verifyIDToken(app *firebase.App, idToken string) *auth.Token {
-	client, err := app.Auth(context.Background())
-	if err != nil {
-		log.Fatalf("error getting Auth client: %v\n", err)
-	}
-
-	token, err := client.VerifyIDToken(idToken)
-	if err != nil {
-		log.Fatalf("error verifying ID token: %v\n", err)
-	}
-
-	return token
 }
 
 func main() {
