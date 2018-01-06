@@ -1,7 +1,7 @@
 package handler
 
 import(
-	"github.com/r21nomi/arto-api/datastore"
+	"github.com/r21nomi/arto-api/domain"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"log"
@@ -22,7 +22,8 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	log.Printf("limit: %s\n", queryValues.Get("limit"))
 
 	// Get Arts
-	arts := datastore.GetArts()
+	getArts := domain.GetArts{}
+	arts := getArts.Execute()
 	bytes, err := json.Marshal(arts)
 
 	if err != nil {

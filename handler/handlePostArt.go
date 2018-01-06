@@ -1,7 +1,6 @@
 package handler
 
 import(
-	"github.com/r21nomi/arto-api/datastore"
 	"github.com/r21nomi/arto-api/domain"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
@@ -28,7 +27,8 @@ import(
 	}
 
 	// Create art
-	datastore.CreateArt(userID, body)
+	setArt := domain.SetArt{}
+	setArt.Execute(userID, body)
 
 	w.WriteHeader(200)
 	return
