@@ -2,10 +2,11 @@ package datastore
 
 import(
 	"encoding/json"
+	"github.com/rs/xid"
 )
 
 type Art struct {
-	Id int `json:"id"`
+	Id string `json:"id"`
 	Title string `json:"title"`
 	User_Id string `json:"user_id"`
 	Type int `json:"type"`
@@ -20,6 +21,8 @@ type Art struct {
 func CreateArt(body []byte) {
 	// JSON Parse
 	var art Art
+	guid := xid.New()
+	art.Id = guid.String()
 	json.Unmarshal(body, &art)
 
 	// Create

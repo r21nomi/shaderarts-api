@@ -56,6 +56,12 @@
   version = "v1.2"
 
 [[projects]]
+  name = "github.com/rs/xid"
+  packages = ["."]
+  revision = "02dd45c33376f85d1064355dc790dcc4850596b1"
+  version = "v1.1"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp","http2","http2/hpack","idna","internal/timeseries","lex/httplex","trace"]
@@ -100,6 +106,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "5888a0a1d225f785ee6f617c33002145243e7d01e2f4c4bfb60a856e45b1ed0a"
+  inputs-digest = "c8f82a85200cf398e8bb823fe08f4d550af38c051ef623e4c85b214a7bc0f092"
   solver-name = "gps-cdcl"
   solver-version = 1
