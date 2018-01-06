@@ -9,8 +9,8 @@ type User struct {
 	ID string `json:"id"`
 	Token string `json:"token"`
 	Name string `json:"name"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func CreateUser(id string, token string, name string) {

@@ -9,15 +9,15 @@ import(
 type Art struct {
 	ID string `json:"id"`
 	Title string `json:"title"`
-	UserID string `json:"user_id"`
-	User User `gorm:"ForeignKey:UserID;AssociationForeignKey:ID"`
+	UserID string `json:"userId"`
+	User User `gorm:"ForeignKey:UserID;AssociationForeignKey:ID" json:"user"`
 	Type int `json:"type"`
 	Thumb string `json:"thumb"`
 	Src string `json:"src"`
 	Description string `json:"description"`
 	Star int `json:"star"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // Method name must be uper camel case to be able to be accessed from another class.
