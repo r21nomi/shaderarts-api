@@ -43,6 +43,7 @@ func GetArts() (arts []Art) {
     Db.Find(&arts)
     for i, _ := range arts {
         Db.Model(arts[i]).Related(&arts[i].User)
+        Db.Model(arts[i]).Related(&arts[i].Programs)
     }
     return
 }
