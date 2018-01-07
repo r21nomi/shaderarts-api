@@ -7,7 +7,7 @@ import(
 
 type User struct {
 	ID string `json:"id"`
-	Token string `json:"token"`
+	Token string `gorm:"type:text" json:"token"`
 	Name string `json:"name"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`

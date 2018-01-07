@@ -27,5 +27,4 @@ func init() {
 	}
 	Db.LogMode(true)
 	Db.AutoMigrate(&User{}, &Art{}, &Program{})
-	Db.Model(&User{}).ModifyColumn("token", "text")
 }
