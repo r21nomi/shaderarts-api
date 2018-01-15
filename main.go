@@ -1,15 +1,16 @@
 package main
 
-import(
-	"github.com/r21nomi/arto-api/handler"
+import (
 	"fmt"
-	"github.com/julienschmidt/httprouter"
-	"github.com/rs/cors"
+	"log"
 	"net/http"
 	"os"
-	"log"
-	"golang.org/x/net/context"
+
 	firebase "firebase.google.com/go"
+	"github.com/julienschmidt/httprouter"
+	"github.com/r21nomi/arto-api/handler"
+	"github.com/rs/cors"
+	"golang.org/x/net/context"
 	"google.golang.org/api/option"
 )
 
@@ -28,7 +29,7 @@ func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-    fmt.Fprint(w, "Welcome!\n")
+	fmt.Fprint(w, "Welcome!\n")
 }
 
 func initializeAppWithServiceAccount() *firebase.App {
@@ -63,5 +64,5 @@ func main() {
 	})
 	handler := c.Handler(router)
 
-	http.ListenAndServe(":" + port, handler)
+	http.ListenAndServe(":"+port, handler)
 }

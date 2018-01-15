@@ -1,13 +1,14 @@
 package handler
 
-import(
-	"github.com/r21nomi/arto-api/domain"
-	"github.com/julienschmidt/httprouter"
-	"net/http"
-	"log"
-	firebase "firebase.google.com/go"
-	"golang.org/x/net/context"
+import (
 	"fmt"
+	"log"
+	"net/http"
+
+	firebase "firebase.google.com/go"
+	"github.com/julienschmidt/httprouter"
+	"github.com/r21nomi/arto-api/domain"
+	"golang.org/x/net/context"
 )
 
 func HandleGetLogin(app *firebase.App, w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -37,9 +38,9 @@ func HandleGetLogin(app *firebase.App, w http.ResponseWriter, r *http.Request, p
 	bytes, err := getUser.Execute(userID)
 	if err != nil {
 		fmt.Fprint(w, "can not get user.")
-        return
+		return
 	}
 	log.Printf("user: %s\n", string(bytes))
-	
+
 	fmt.Fprint(w, string(bytes))
 }

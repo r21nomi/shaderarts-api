@@ -1,23 +1,24 @@
 package datastore
 
-import(
+import (
 	"encoding/json"
-	"github.com/rs/xid"
 	"time"
+
+	"github.com/rs/xid"
 )
 
 type Art struct {
-	ID string `json:"id"`
-	Title string `json:"title"`
-	Type int `json:"type"`
-	Thumb string `json:"thumb"`
-	Description string `json:"description"`
-	Star int `json:"star"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	UserID string `json:"userId"`
-	User User `gorm:"ForeignKey:UserID;AssociationForeignKey:ID" json:"user"`
-	Programs []Program `json:"programs"`
+	ID          string    `json:"id"`
+	Title       string    `json:"title"`
+	Type        int       `json:"type"`
+	Thumb       string    `json:"thumb"`
+	Description string    `json:"description"`
+	Star        int       `json:"star"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+	UserID      string    `json:"userId"`
+	User        User      `gorm:"ForeignKey:UserID;AssociationForeignKey:ID" json:"user"`
+	Codes       []Code    `json:"codes"`
 }
 
 func CreateArt(userID string, body []byte) {
@@ -27,11 +28,11 @@ func CreateArt(userID string, body []byte) {
 	art.UserID = userID
 	json.Unmarshal(body, &art)
 
-	for i, _ := range art.Programs {
+	for i, _ := range art.Codes {
 		guid := xid.New()
-		art.Programs[i].ID = guid.String()
-		art.Programs[i].ArtID = art.ID
-		Db.Create(&art.Programs[i])
+		art.Codes[i].ID = guid.String()
+		art.Codes[i].ArtID = art.ID
+		Db.Create(&art.Codes[i])
 	}
 
 	// Create
@@ -39,13 +40,13 @@ func CreateArt(userID string, body []byte) {
 }
 
 func GetArts() (arts []Art) {
-    // Get all Arts
-    Db.Find(&arts)
-    for i, _ := range arts {
-        Db.Model(arts[i]).Related(&arts[i].User)
-        Db.Model(arts[i]).Related(&arts[i].Programs)
-    }
-    return
+	// Get all Arts
+	Db.Find(&arts)
+	for i, _ := range arts {
+		Db.Model(arts[i]).Related(&arts[i].User)
+		Db.Model(arts[i]).Related(&arts[i].Codes)
+	}
+	return
 }
 
 func getArt(id string) (art Art) {

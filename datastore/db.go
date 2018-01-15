@@ -1,10 +1,11 @@
 package datastore
 
-import(
+import (
+	"log"
+	"os"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"os"
-	"log"
 )
 
 var Db *gorm.DB
@@ -23,8 +24,8 @@ func init() {
 	var err error
 	Db, err = gorm.Open(DBMS, CONNECT)
 	if err != nil {
-			panic(err)
+		panic(err)
 	}
 	Db.LogMode(true)
-	Db.AutoMigrate(&User{}, &Art{}, &Program{})
+	Db.AutoMigrate(&User{}, &Art{}, &Code{})
 }

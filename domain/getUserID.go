@@ -1,10 +1,11 @@
 package domain
 
-import(
+import (
+	"log"
+
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	"golang.org/x/net/context"
-	"log"
 )
 
 type GetUserID struct{}

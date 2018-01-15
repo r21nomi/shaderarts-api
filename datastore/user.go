@@ -1,14 +1,14 @@
 package datastore
 
-import(
+import (
 	"encoding/json"
 	"time"
 )
 
 type User struct {
-	ID string `json:"id"`
-	Token string `gorm:"type:text" json:"token"`
-	Name string `json:"name"`
+	ID        string    `json:"id"`
+	Token     string    `gorm:"type:text" json:"token"`
+	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -25,7 +25,7 @@ func CreateUser(id string, token string, name string) {
 
 func GetUser(id string) ([]byte, error) {
 	user := User{}
-	
+
 	Db.Where("id = ?", id).First(&user)
 
 	return json.Marshal(user)

@@ -1,17 +1,18 @@
 package handler
 
-import(
-	"github.com/r21nomi/arto-api/domain"
-	"github.com/julienschmidt/httprouter"
-	"net/http"
+import (
 	"log"
+	"net/http"
+
 	firebase "firebase.google.com/go"
+	"github.com/julienschmidt/httprouter"
+	"github.com/r21nomi/arto-api/domain"
 )
 
 /**
  * Create Art.
  */
- func HandlePostArt(app *firebase.App, w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func HandlePostArt(app *firebase.App, w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	len := r.ContentLength
 	body := make([]byte, len)
 	r.Body.Read(body)

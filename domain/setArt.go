@@ -1,6 +1,6 @@
 package domain
 
-import(
+import (
 	"github.com/r21nomi/arto-api/datastore"
 )
 

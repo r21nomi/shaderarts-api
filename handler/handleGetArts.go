@@ -1,12 +1,13 @@
 package handler
 
-import(
-	"github.com/r21nomi/arto-api/domain"
-	"github.com/julienschmidt/httprouter"
-	"net/http"
-	"log"
-	"fmt"
+import (
 	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
+	"github.com/r21nomi/arto-api/domain"
 )
 
 /**
@@ -28,7 +29,7 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 
 	if err != nil {
 		fmt.Fprint(w, "error")
-        return
+		return
 	}
 
 	log.Printf("arts: %s\n", string(bytes))
