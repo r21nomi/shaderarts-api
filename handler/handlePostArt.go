@@ -33,9 +33,18 @@ func HandlePostArt(app *firebase.App, w http.ResponseWriter, r *http.Request, ps
 		log.Fatalf("error getting user id: %v\n", err)
 	}
 
+	uploadImage := domain.UploadImage{}
+	artThumbPath, err := uploadImage.Execute(art.Thumb)
+
+	if err != nil {
+		log.Fatalf("error upload image: %v\n", err)
+	}
+
+	log.Println("artThumbPath: " + artThumbPath)
+
 	// Create art
 	setArt := domain.SetArt{}
-	setArt.Execute(userID, art)
+	setArt.Execute(art, userID, artThumbPath)
 
 	w.WriteHeader(200)
 	return
