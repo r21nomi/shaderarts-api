@@ -6,6 +6,7 @@ import (
 
 type SetArt struct{}
 
-func (s *SetArt) Execute(userID string, body []byte) {
-	datastore.CreateArt(userID, body)
+func (s *SetArt) Execute(userID string, art datastore.Art) {
+	art.UserID = userID
+	datastore.CreateArt(art)
 }
