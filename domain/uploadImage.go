@@ -41,6 +41,7 @@ func (u *UploadImage) Execute(base64Thumb string) (string, error) {
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(filename),
+		ACL:    aws.String("public-read"),
 		Body:   file,
 	})
 	if err != nil {
