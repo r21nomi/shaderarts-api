@@ -19,14 +19,15 @@ type UploadImage struct{}
 
 func (u *UploadImage) Execute(base64Thumb string) (string, error) {
 	region := "ap-northeast-1"
-	bucket := "arto-image"
+	bucket := "dev-arto-stat"
 
 	file, err := toPngImage(base64Thumb)
 	if err != nil {
 		return "", err
 	}
 	filename := file.Name()
-	filePath := "https://s3-" + region + ".amazonaws.com/" + bucket + "/" + filename
+	filePath := "artthumb/" + filename
+	fileFullPath := "https://s3-" + region + ".amazonaws.com/" + bucket + "/" + filePath
 
 	defer file.Close()
 
@@ -40,7 +41,7 @@ func (u *UploadImage) Execute(base64Thumb string) (string, error) {
 
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(bucket),
-		Key:    aws.String(filename),
+		Key:    aws.String(filePath),
 		ACL:    aws.String("public-read"),
 		Body:   file,
 	})
@@ -55,7 +56,7 @@ func (u *UploadImage) Execute(base64Thumb string) (string, error) {
 
 	fmt.Printf("Successfully uploaded %q to %q\n", filename, bucket)
 
-	return filePath, err
+	return fileFullPath, err
 }
 
 /**
