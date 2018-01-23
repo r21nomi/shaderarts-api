@@ -32,7 +32,7 @@ func HandleGetLogin(app *firebase.App, w http.ResponseWriter, r *http.Request, p
 	}
 
 	setUser := domain.SetUser{}
-	setUser.Execute(userID, token, user.UserInfo.DisplayName)
+	setUser.Execute(userID, token, user.UserInfo.DisplayName, user.PhotoURL)
 
 	getUser := domain.GetUser{}
 	bytes, err := getUser.Execute(userID)

@@ -6,6 +6,6 @@ import (
 
 type SetUser struct{}
 
-func (s *SetUser) Execute(id string, token string, name string) {
-	datastore.CreateUser(id, token, name)
+func (s *SetUser) Execute(id string, token string, name string, thumb string) {
+	datastore.CreateUser(id, token, name, thumb)
 }
