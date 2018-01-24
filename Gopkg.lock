@@ -14,6 +14,18 @@
   version = "v2.3.0"
 
 [[projects]]
+  name = "github.com/aws/aws-sdk-go"
+  packages = ["aws","aws/awserr","aws/awsutil","aws/client","aws/client/metadata","aws/corehandlers","aws/credentials","aws/credentials/ec2rolecreds","aws/credentials/endpointcreds","aws/credentials/stscreds","aws/defaults","aws/ec2metadata","aws/endpoints","aws/request","aws/session","aws/signer/v4","internal/shareddefaults","private/protocol","private/protocol/query","private/protocol/query/queryutil","private/protocol/rest","private/protocol/restxml","private/protocol/xml/xmlutil","service/s3","service/s3/s3iface","service/s3/s3manager","service/sts"]
+  revision = "decd990ddc5dcdf2f73309cbcab90d06b996ca28"
+  version = "v1.12.67"
+
+[[projects]]
+  name = "github.com/go-ini/ini"
+  packages = ["."]
+  revision = "32e4c1e6bc4e7d0d8451aa6b75200d19e37a536a"
+  version = "v1.32.0"
+
+[[projects]]
   name = "github.com/go-sql-driver/mysql"
   packages = ["."]
   revision = "a0583e0143b1624142adab07e0e97fe106d99561"
@@ -42,6 +54,11 @@
   name = "github.com/jinzhu/inflection"
   packages = ["."]
   revision = "1c35d901db3da928c72a72d8458480cc9ade058f"
+
+[[projects]]
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  revision = "0b12d6b5"
 
 [[projects]]
   name = "github.com/julienschmidt/httprouter"
@@ -106,6 +123,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c8f82a85200cf398e8bb823fe08f4d550af38c051ef623e4c85b214a7bc0f092"
+  inputs-digest = "c9c0e0e0c51b0c2b1d14d72af1f4a56d8ec308b6e30a88f5d2aaff87f4ec0dbb"
   solver-name = "gps-cdcl"
   solver-version = 1
