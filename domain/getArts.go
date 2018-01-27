@@ -6,6 +6,6 @@ import (
 
 type GetArts struct{}
 
-func (g *GetArts) Execute() []datastore.Art {
-	return datastore.GetArts()
+func (g *GetArts) Execute(limit int, offset int) []datastore.Art {
+	return datastore.GetArts(limit, offset)
 }

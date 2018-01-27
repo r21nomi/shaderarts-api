@@ -35,9 +35,9 @@ func CreateArt(art Art) {
 	Db.Create(&art)
 }
 
-func GetArts() (arts []Art) {
+func GetArts(limit int, offset int) (arts []Art) {
 	// Get all Arts
-	Db.Find(&arts)
+	Db.Order("created_at desc").Limit(limit).Offset(offset).Find(&arts)
 	for i, _ := range arts {
 		Db.Model(arts[i]).Related(&arts[i].User)
 		Db.Model(arts[i]).Related(&arts[i].Codes)

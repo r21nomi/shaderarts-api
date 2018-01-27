@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/r21nomi/arto-api/domain"
@@ -20,11 +21,26 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 
 	//　Query param
 	queryValues := r.URL.Query()
-	log.Printf("limit: %s\n", queryValues.Get("limit"))
+	l := queryValues.Get("limit")
+	o := queryValues.Get("offset")
+
+	var limit, offset = 8, 0
+	var err error
+
+	if l != "" {
+		limit, err = strconv.Atoi(l)
+	}
+	if o != "" {
+		offset, err = strconv.Atoi(o)
+	}
+
+	if err != nil {
+		log.Println("strconv error: %s\n", err.Error())
+	}
 
 	// Get Arts
 	getArts := domain.GetArts{}
-	arts := getArts.Execute()
+	arts := getArts.Execute(limit, offset)
 	bytes, err := json.Marshal(arts)
 
 	if err != nil {
@@ -32,6 +48,5 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 		return
 	}
 
-	log.Printf("arts: %s\n", string(bytes))
 	fmt.Fprint(w, string(bytes))
 }

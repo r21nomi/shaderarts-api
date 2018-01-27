@@ -26,6 +26,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	Db.LogMode(true)
+	Db.LogMode(false)
 	Db.AutoMigrate(&User{}, &Art{}, &Code{})
 }
