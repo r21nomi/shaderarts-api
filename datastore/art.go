@@ -35,6 +35,14 @@ func CreateArt(art Art) {
 	Db.Create(&art)
 }
 
+func GetArtByID(id string) (art Art) {
+	art.ID = id
+
+	Db.Find(&art).Related(&art.User).Related(&art.Codes)
+
+	return
+}
+
 func GetArts(limit int, offset int) (arts []Art) {
 	// Get all Arts
 	Db.Order("created_at desc").Limit(limit).Offset(offset).Find(&arts)
