@@ -18,6 +18,7 @@ type Art struct {
 	UserID      string    `json:"userId"`
 	User        User      `gorm:"ForeignKey:UserID;AssociationForeignKey:ID" json:"user"`
 	Codes       []Code    `json:"codes"`
+	Tags        []Tag     `gorm:"many2many:art_tags;" json:"tags"`
 }
 
 func CreateArt(art Art) {
@@ -29,6 +30,20 @@ func CreateArt(art Art) {
 		art.Codes[i].ID = guid.String()
 		art.Codes[i].ArtID = art.ID
 		Db.Create(&art.Codes[i])
+	}
+
+	for i, _ := range art.Tags {
+		var tag Tag
+
+		if Db.First(&tag, "text = ?", art.Tags[i].Text).RecordNotFound() {
+			// New tag.
+			guid := xid.New()
+			art.Tags[i].ID = guid.String()
+			Db.Create(&art.Tags[i])
+		} else {
+			// Tag already exists.
+			art.Tags[i].ID = tag.ID
+		}
 	}
 
 	// Create
@@ -49,6 +64,7 @@ func GetArts(limit int, offset int) (arts []Art) {
 	for i, _ := range arts {
 		Db.Model(arts[i]).Related(&arts[i].User)
 		Db.Model(arts[i]).Related(&arts[i].Codes)
+		Db.Model(arts[i]).Related(&arts[i].Tags, "Tags")
 	}
 	return
 }
