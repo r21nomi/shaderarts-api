@@ -53,7 +53,7 @@ func CreateArt(art Art) {
 func GetArtByID(id string) (art Art) {
 	art.ID = id
 
-	Db.Find(&art).Related(&art.User).Related(&art.Codes)
+	Db.Find(&art).Related(&art.User).Related(&art.Codes).Related(&art.Tags, "Tags")
 
 	return
 }
