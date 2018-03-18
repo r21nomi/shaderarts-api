@@ -21,7 +21,8 @@ func HandlePostArt(app *firebase.App, w http.ResponseWriter, r *http.Request, ps
 	err := decoder.Decode(&art)
 
 	if err != nil {
-		log.Fatalf("error decoding: %v\n", err)
+		http.Error(w, "error decoding: "+err.Error(), 400)
+		return
 	}
 
 	token := r.Header.Get("X-Token")
@@ -30,14 +31,16 @@ func HandlePostArt(app *firebase.App, w http.ResponseWriter, r *http.Request, ps
 	userID, err := getUserID.Execute(app, token)
 
 	if err != nil {
-		log.Fatalf("error getting user id: %v\n", err)
+		http.Error(w, "error getting user id: "+err.Error(), 500)
+		return
 	}
 
 	uploadImage := domain.UploadImage{}
 	artThumbPath, err := uploadImage.Execute(art.Thumb)
 
 	if err != nil {
-		log.Fatalf("error upload image: %v\n", err)
+		http.Error(w, "error upload image: "+err.Error(), 500)
+		return
 	}
 
 	log.Println("artThumbPath: " + artThumbPath)

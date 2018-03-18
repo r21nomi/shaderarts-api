@@ -2,7 +2,6 @@ package handler
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	firebase "firebase.google.com/go"
@@ -17,18 +16,19 @@ func HandleGetLogin(app *firebase.App, w http.ResponseWriter, r *http.Request, p
 	r.Body.Read(body)
 
 	token := r.Header.Get("X-Token")
-	log.Printf("token: %s\n", token)
 
 	getUserID := domain.GetUserID{}
 	userID, err := getUserID.Execute(app, token)
 
 	client, err := app.Auth(context.Background())
 	if err != nil {
-		log.Fatalf("error getting Auth client: %v\n", err)
+		http.Error(w, "error getting Auth client: "+err.Error(), 500)
+		return
 	}
 	user, err := client.GetUser(context.Background(), userID)
 	if err != nil {
-		log.Fatalf("error getting User: %v\n", err)
+		http.Error(w, "error getting User: "+err.Error(), 500)
+		return
 	}
 
 	setUser := domain.SetUser{}
@@ -37,10 +37,9 @@ func HandleGetLogin(app *firebase.App, w http.ResponseWriter, r *http.Request, p
 	getUser := domain.GetUser{}
 	bytes, err := getUser.Execute(userID)
 	if err != nil {
-		fmt.Fprint(w, "can not get user.")
+		http.Error(w, "can not get user: "+err.Error(), 500)
 		return
 	}
-	log.Printf("user: %s\n", string(bytes))
 
 	fmt.Fprint(w, string(bytes))
 }

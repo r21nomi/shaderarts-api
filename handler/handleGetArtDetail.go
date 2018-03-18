@@ -20,7 +20,7 @@ func HandleGetArtDetail(w http.ResponseWriter, r *http.Request, ps httprouter.Pa
 	bytes, err := json.Marshal(art)
 
 	if err != nil {
-		fmt.Fprint(w, "error")
+		http.Error(w, err.Error(), 400)
 		return
 	}
 

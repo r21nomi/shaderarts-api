@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -35,7 +34,8 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	}
 
 	if err != nil {
-		log.Println("strconv error: %s\n", err.Error())
+		http.Error(w, err.Error(), 400)
+		return
 	}
 
 	// Get Arts
@@ -44,7 +44,7 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	bytes, err := json.Marshal(arts)
 
 	if err != nil {
-		fmt.Fprint(w, "error")
+		http.Error(w, err.Error(), 400)
 		return
 	}
 
