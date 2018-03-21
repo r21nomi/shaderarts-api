@@ -15,7 +15,7 @@ type Art struct {
 	Star        int       `json:"star"`
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
-	UserID      string    `json:"userId"`
+	UserID      string    `json:"-"`
 	User        User      `gorm:"ForeignKey:UserID;AssociationForeignKey:ID" json:"user"`
 	Codes       []Code    `json:"codes"`
 	Tags        []Tag     `gorm:"many2many:art_tags;" json:"tags"`
