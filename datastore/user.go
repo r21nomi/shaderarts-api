@@ -1,8 +1,9 @@
 package datastore
 
 import (
-	"encoding/json"
 	"time"
+
+	"github.com/rs/xid"
 )
 
 type User struct {
@@ -25,10 +26,29 @@ func CreateUser(id string, token string, name string, thumb string) {
 	Db.Where("id = ?", id).Assign(user).FirstOrCreate(&user)
 }
 
-func GetUser(id string) ([]byte, error) {
-	user := User{}
+func (user User) AddStar(art Art) error {
+	var star Star
+	star.ID = xid.New().String()
 
-	Db.Where("id = ?", id).First(&user)
+	err := Db.FirstOrCreate(&star, &Star{
+		StarID:     art.ID,
+		StaredByID: user.ID,
+	}).Error
 
-	return json.Marshal(user)
+	return err
+}
+
+func (user User) RemoveStar(art Art) error {
+	err := Db.Where(Star{
+		StarID:     art.ID,
+		StaredByID: user.ID,
+	}).Delete(Star{}).Error
+
+	return err
+}
+
+func GetUser(id string) (user User, err error) {
+	err = Db.Where("id = ?", id).First(&user).Error
+
+	return user, err
 }

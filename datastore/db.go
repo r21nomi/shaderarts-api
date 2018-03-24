@@ -27,5 +27,5 @@ func init() {
 		panic(err)
 	}
 	Db.LogMode(false)
-	Db.AutoMigrate(&User{}, &Art{}, &Code{}, &Tag{})
+	Db.AutoMigrate(&User{}, &Art{}, &Code{}, &Tag{}, &Star{})
 }
