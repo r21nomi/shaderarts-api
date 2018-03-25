@@ -28,9 +28,13 @@ func CreateUser(id string, token string, name string, thumb string) {
 
 func (user User) AddStar(art Art) error {
 	var star Star
-	star.ID = xid.New().String()
 
-	err := Db.FirstOrCreate(&star, &Star{
+	// Create or update
+	err := Db.Attrs(Star{ // Set ID only if the record is inserted.
+		ID: xid.New().String(),
+	}).Assign(Star{ // Set StarID regardless of the record is inserted or updated (to update an updated_at column).
+		StarID: art.ID,
+	}).FirstOrCreate(&star, &Star{
 		StarID:     art.ID,
 		StaredByID: user.ID,
 	}).Error
