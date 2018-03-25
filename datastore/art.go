@@ -7,18 +7,18 @@ import (
 )
 
 type Art struct {
-	ID          string    `json:"id"`
-	Title       string    `json:"title"`
-	Type        int       `json:"type"`
-	Thumb       string    `json:"thumb"`
-	Description string    `json:"description"`
-	Star        int       `json:"star"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
-	UserID      string    `json:"-"`
-	User        User      `gorm:"ForeignKey:UserID;AssociationForeignKey:ID" json:"user"`
-	Codes       []Code    `json:"codes"`
-	Tags        []Tag     `gorm:"many2many:art_tags;" json:"tags"`
+	ID          string
+	Title       string
+	Type        int
+	Thumb       string
+	Description string
+	Star        int
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	UserID      string
+	User        User `gorm:"ForeignKey:UserID;AssociationForeignKey:ID"`
+	Codes       []Code
+	Tags        []Tag `gorm:"many2many:art_tags;"`
 }
 
 func CreateArt(art Art) {

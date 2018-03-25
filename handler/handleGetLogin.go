@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
+	"encoding/json"
+
 	firebase "firebase.google.com/go"
 	"github.com/julienschmidt/httprouter"
 	"github.com/r21nomi/arto-api/domain"
+	"github.com/r21nomi/arto-api/entity"
 	"golang.org/x/net/context"
 )
 
@@ -25,19 +28,26 @@ func HandleGetLogin(app *firebase.App, w http.ResponseWriter, r *http.Request, p
 		http.Error(w, "error getting Auth client: "+err.Error(), 500)
 		return
 	}
-	user, err := client.GetUser(context.Background(), userID)
+	firebaseUser, err := client.GetUser(context.Background(), userID)
 	if err != nil {
 		http.Error(w, "error getting User: "+err.Error(), 500)
 		return
 	}
 
 	setUser := domain.SetUser{}
-	setUser.Execute(userID, token, user.UserInfo.DisplayName, user.PhotoURL)
+	setUser.Execute(userID, token, firebaseUser.UserInfo.DisplayName, firebaseUser.PhotoURL)
 
 	getUser := domain.GetUser{}
-	bytes, err := getUser.Execute(userID)
+	user, err := getUser.Execute(userID)
 	if err != nil {
 		http.Error(w, "can not get user: "+err.Error(), 500)
+		return
+	}
+
+	serializer := entity.UserSerializer{user}
+	bytes, err := json.Marshal(serializer.Entity())
+	if err != nil {
+		http.Error(w, "can not parse user: "+err.Error(), 500)
 		return
 	}
 

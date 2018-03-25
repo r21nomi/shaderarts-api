@@ -7,12 +7,12 @@ import (
 )
 
 type User struct {
-	ID        string    `json:"id"`
-	Token     string    `gorm:"type:text" json:"token"`
-	Name      string    `json:"name"`
-	Thumb     string    `json:"thumb"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	ID        string
+	Token     string `gorm:"type:text"`
+	Name      string
+	Thumb     string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func CreateUser(id string, token string, name string, thumb string) {

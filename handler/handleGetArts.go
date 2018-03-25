@@ -8,6 +8,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/r21nomi/arto-api/domain"
+	"github.com/r21nomi/arto-api/entity"
 )
 
 /**
@@ -41,7 +42,8 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	// Get Arts
 	getArts := domain.GetArts{}
 	arts := getArts.Execute(limit, offset)
-	bytes, err := json.Marshal(arts)
+	serializer := entity.ArtsSerializer{arts}
+	bytes, err := json.Marshal(serializer.Entities())
 
 	if err != nil {
 		http.Error(w, err.Error(), 400)
