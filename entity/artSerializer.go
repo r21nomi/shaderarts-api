@@ -37,7 +37,7 @@ func (self *ArtSerializer) Entity(userId string) ArtEntity {
 		Type:        self.Type,
 		Thumb:       self.Thumb,
 		Description: self.Description,
-		Star:        self.Star,
+		Star:        self.StarCount(),
 		IsStarred:   self.IsStarredBy(userId),
 		CreatedAt:   self.CreatedAt,
 		UpdatedAt:   self.UpdatedAt,

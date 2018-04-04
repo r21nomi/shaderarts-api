@@ -12,13 +12,20 @@ type Art struct {
 	Type        int
 	Thumb       string
 	Description string
-	Star        int
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	UserID      string
 	User        User `gorm:"ForeignKey:UserID;AssociationForeignKey:ID"`
 	Codes       []Code
 	Tags        []Tag `gorm:"many2many:art_tags;"`
+}
+
+func (art Art) StarCount() int {
+	var count int
+	Db.Model(&Star{}).Where(Star{
+		StarID: art.ID,
+	}).Count(&count)
+	return count
 }
 
 func (art Art) IsStarredBy(userId string) bool {
