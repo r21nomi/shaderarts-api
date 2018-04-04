@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	firebase "firebase.google.com/go"
 	"github.com/julienschmidt/httprouter"
 	"github.com/r21nomi/arto-api/domain"
 	"github.com/r21nomi/arto-api/entity"
@@ -14,10 +15,19 @@ import (
 /**
  * Get Arts.
  */
-func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func HandleGetArts(app *firebase.App, w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	len := r.ContentLength
 	body := make([]byte, len)
 	r.Body.Read(body)
+
+	token := r.Header.Get("X-Token")
+	getUserID := domain.GetUserID{}
+	userID, err := getUserID.Execute(app, token)
+
+	if err != nil {
+		http.Error(w, "user id couldn't find: "+err.Error(), 400)
+		return
+	}
 
 	//　Query param
 	queryValues := r.URL.Query()
@@ -25,7 +35,6 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	o := queryValues.Get("offset")
 
 	var limit, offset = 8, 0
-	var err error
 
 	if l != "" {
 		limit, err = strconv.Atoi(l)
@@ -43,7 +52,7 @@ func HandleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	getArts := domain.GetArts{}
 	arts := getArts.Execute(limit, offset)
 	serializer := entity.ArtsSerializer{arts}
-	bytes, err := json.Marshal(serializer.Entities())
+	bytes, err := json.Marshal(serializer.Entities(userID))
 
 	if err != nil {
 		http.Error(w, err.Error(), 400)

@@ -21,6 +21,15 @@ type Art struct {
 	Tags        []Tag `gorm:"many2many:art_tags;"`
 }
 
+func (art Art) IsStarredBy(userId string) bool {
+	var star Star
+	Db.Where(Star{
+		StarID:     art.ID,
+		StaredByID: userId,
+	}).First(&star)
+	return star.ID != ""
+}
+
 func CreateArt(art Art) {
 	guid := xid.New()
 	art.ID = guid.String()

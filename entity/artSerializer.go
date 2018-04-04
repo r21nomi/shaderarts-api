@@ -26,7 +26,7 @@ type ArtEntity struct {
 	Tags        []TagEntity  `json:"tags"`
 }
 
-func (self *ArtSerializer) Entity() ArtEntity {
+func (self *ArtSerializer) Entity(userId string) ArtEntity {
 	userSerializer := UserSerializer{self.User}
 	codesSerializer := CodesSerializer{self.Codes}
 	tagsSerializer := TagsSerializer{self.Tags}
@@ -38,7 +38,7 @@ func (self *ArtSerializer) Entity() ArtEntity {
 		Thumb:       self.Thumb,
 		Description: self.Description,
 		Star:        self.Star,
-		IsStarred:   false, // FIXME
+		IsStarred:   self.IsStarredBy(userId),
 		CreatedAt:   self.CreatedAt,
 		UpdatedAt:   self.UpdatedAt,
 		User:        userSerializer.Entity(),
@@ -47,11 +47,11 @@ func (self *ArtSerializer) Entity() ArtEntity {
 	}
 }
 
-func (self *ArtsSerializer) Entities() []ArtEntity {
+func (self *ArtsSerializer) Entities(userId string) []ArtEntity {
 	entities := []ArtEntity{}
 	for _, art := range self.Arts {
 		serializer := ArtSerializer{art}
-		entities = append(entities, serializer.Entity())
+		entities = append(entities, serializer.Entity(userId))
 	}
 	return entities
 }

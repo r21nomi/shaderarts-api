@@ -25,11 +25,11 @@ func handlePostArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 }
 
 func handleGetArtDetail(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	handler.HandleGetArtDetail(w, r, ps)
+	handler.HandleGetArtDetail(app, w, r, ps)
 }
 
 func handleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	handler.HandleGetArts(w, r, ps)
+	handler.HandleGetArts(app, w, r, ps)
 }
 
 func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
