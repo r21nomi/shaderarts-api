@@ -42,7 +42,7 @@ func (user User) AddStar(art Art) error {
 	return err
 }
 
-func (user User) RemoveStar(art Art) error {
+func (user User) DeleteStar(art Art) error {
 	err := Db.Where(Star{
 		StarID:     art.ID,
 		StaredByID: user.ID,

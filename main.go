@@ -20,6 +20,10 @@ func handlePostStar(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 	handler.HandlePostStar(app, w, r, ps)
 }
 
+func handleDeleteStar(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	handler.HandleDeleteStar(app, w, r, ps)
+}
+
 func handlePostArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	handler.HandlePostArt(app, w, r, ps)
 }
@@ -60,6 +64,7 @@ func main() {
 		port = "9000"
 	}
 
+	router.DELETE("/v1/star/:artId", handleDeleteStar)
 	router.POST("/v1/star/:artId", handlePostStar)
 	router.POST("/v1/art", handlePostArt)
 	router.GET("/v1/art/:id", handleGetArtDetail)
