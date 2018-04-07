@@ -85,6 +85,18 @@ func GetArts(limit int, offset int) (arts []Art) {
 	return
 }
 
+func GetArtsByUserId(userId string, limit int, offset int) (arts []Art) {
+	Db.Where(Art{
+		UserID: userId,
+	}).Order("created_at desc").Limit(limit).Offset(offset).Find(&arts)
+	for i, _ := range arts {
+		Db.Model(arts[i]).Related(&arts[i].User)
+		Db.Model(arts[i]).Related(&arts[i].Codes)
+		Db.Model(arts[i]).Related(&arts[i].Tags, "Tags")
+	}
+	return
+}
+
 func getArt(id string) (art Art) {
 	Db.First(&art, "id = ?", id).Related(&art.User)
 	return
