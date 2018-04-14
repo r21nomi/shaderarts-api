@@ -16,20 +16,12 @@ import (
 
 var app *firebase.App
 
-func handlePostStar(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	handler.HandlePostStar(app, w, r, ps)
+func handleIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprint(w, "Welcome!\n")
 }
 
-func handleDeleteStar(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	handler.HandleDeleteStar(app, w, r, ps)
-}
-
-func handlePostArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	handler.HandlePostArt(app, w, r, ps)
-}
-
-func handleGetArtDetail(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	handler.HandleGetArtDetail(app, w, r, ps)
+func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	handler.HandleGetLogin(app, w, r, ps)
 }
 
 func handleGetUserDetail(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -44,12 +36,20 @@ func handleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 	handler.HandleGetArts(app, w, r, ps)
 }
 
-func handleGetLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	handler.HandleGetLogin(app, w, r, ps)
+func handlePostArt(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	handler.HandlePostArt(app, w, r, ps)
 }
 
-func handleIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprint(w, "Welcome!\n")
+func handleGetArtDetail(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	handler.HandleGetArtDetail(app, w, r, ps)
+}
+
+func handlePostStar(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	handler.HandlePostStar(app, w, r, ps)
+}
+
+func handleDeleteStar(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	handler.HandleDeleteStar(app, w, r, ps)
 }
 
 func initializeAppWithServiceAccount() *firebase.App {
@@ -72,15 +72,17 @@ func main() {
 		port = "9000"
 	}
 
-	router.DELETE("/v1/star/:artId", handleDeleteStar)
-	router.POST("/v1/star/:artId", handlePostStar)
-	router.POST("/v1/art", handlePostArt)
-	router.GET("/v1/art/:id", handleGetArtDetail)
-	router.GET("/v1/art", handleGetArts)
-	router.GET("/v1/me/arts", handleGetMyArts)
-	router.GET("/v1/user/:id", handleGetUserDetail)
-	router.GET("/v1/login", handleGetLogin)
 	router.GET("/", handleIndex)
+	router.GET("/v1/login", handleGetLogin)
+	router.GET("/v1/user/:id", handleGetUserDetail)
+	router.GET("/v1/me/arts", handleGetMyArts)
+
+	router.GET("/v1/art", handleGetArts)
+	router.GET("/v1/art/:id", handleGetArtDetail)
+	router.POST("/v1/art", handlePostArt)
+
+	router.POST("/v1/star/:artId", handlePostStar)
+	router.DELETE("/v1/star/:artId", handleDeleteStar)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
