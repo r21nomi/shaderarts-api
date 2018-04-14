@@ -51,7 +51,7 @@ func (user User) DeleteStar(art Art) error {
 	return err
 }
 
-func GetUser(id string) (user User, err error) {
+func GetUserByID(id string) (user User, err error) {
 	err = Db.Where("id = ?", id).First(&user).Error
 
 	return user, err

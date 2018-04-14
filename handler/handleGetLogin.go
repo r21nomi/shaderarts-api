@@ -37,7 +37,7 @@ func HandleGetLogin(app *firebase.App, w http.ResponseWriter, r *http.Request, p
 	setUser := domain.SetUser{}
 	setUser.Execute(userID, token, firebaseUser.UserInfo.DisplayName, firebaseUser.PhotoURL)
 
-	getUser := domain.GetUser{}
+	getUser := domain.GetUserByID{}
 	user, err := getUser.Execute(userID)
 	if err != nil {
 		http.Error(w, "can not get user: "+err.Error(), 500)

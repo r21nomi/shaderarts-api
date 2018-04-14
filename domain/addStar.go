@@ -7,7 +7,7 @@ import (
 type AddStar struct{}
 
 func (a *AddStar) Execute(userID string, artID string) error {
-	user, err := datastore.GetUser(userID)
+	user, err := datastore.GetUserByID(userID)
 
 	if err != nil {
 		return err

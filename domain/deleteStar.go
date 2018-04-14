@@ -7,7 +7,7 @@ import (
 type DeleteStar struct{}
 
 func (a *DeleteStar) Execute(userID string, artID string) error {
-	user, err := datastore.GetUser(userID)
+	user, err := datastore.GetUserByID(userID)
 
 	if err != nil {
 		return err
