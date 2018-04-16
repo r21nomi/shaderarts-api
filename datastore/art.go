@@ -1,6 +1,7 @@
 package datastore
 
 import (
+	"strings"
 	"time"
 
 	"github.com/rs/xid"
@@ -85,10 +86,43 @@ func GetArts(limit int, offset int) (arts []Art) {
 	return
 }
 
+func GetArtsOrderByStar(limit int, offset int) (arts []Art) {
+	type _starCount struct {
+		StarID string
+		Count  int
+	}
+
+	var artsByStar []_starCount
+	Db.Table("stars").
+		Select("star_id, count(star_id) as count").
+		Group("star_id").
+		Order("count desc").
+		Scan(&artsByStar)
+
+	var artIds []string
+	for i, _ := range artsByStar {
+		artIds = append(artIds, artsByStar[i].StarID)
+	}
+
+	return getArtsByIds(artIds, limit, offset)
+}
+
 func GetArtsByUserId(userId string, limit int, offset int) (arts []Art) {
 	Db.Where(Art{
 		UserID: userId,
 	}).Order("created_at desc").Limit(limit).Offset(offset).Find(&arts)
+	for i, _ := range arts {
+		Db.Model(arts[i]).Related(&arts[i].User)
+		Db.Model(arts[i]).Related(&arts[i].Codes)
+		Db.Model(arts[i]).Related(&arts[i].Tags, "Tags")
+	}
+	return
+}
+
+func getArtsByIds(artIds []string, limit int, offset int) (arts []Art) {
+	idsString := "'" + strings.Join(artIds, "', '") + "'"
+	Db.Where(artIds).Order("FIELD(id, " + idsString + ")").Find(&arts)
+
 	for i, _ := range arts {
 		Db.Model(arts[i]).Related(&arts[i].User)
 		Db.Model(arts[i]).Related(&arts[i].Codes)
