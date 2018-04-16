@@ -32,6 +32,10 @@ func handleGetMyArts(w http.ResponseWriter, r *http.Request, ps httprouter.Param
 	handler.HandleGetMyArts(app, w, r, ps)
 }
 
+func handleGetExplore(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	handler.HandleGetExplore(app, w, r, ps)
+}
+
 func handleGetArts(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	handler.HandleGetArts(app, w, r, ps)
 }
@@ -76,6 +80,8 @@ func main() {
 	router.GET("/v1/login", handleGetLogin)
 	router.GET("/v1/user/:id", handleGetUserDetail)
 	router.GET("/v1/me/arts", handleGetMyArts)
+
+	router.GET("/v1/explore", handleGetExplore)
 
 	router.GET("/v1/art", handleGetArts)
 	router.GET("/v1/art/:id", handleGetArtDetail)
