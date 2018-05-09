@@ -30,11 +30,16 @@ func (art Art) StarCount() int {
 }
 
 func (art Art) IsStarredBy(userId string) bool {
+	if userId == "" {
+		return false
+	}
+
 	var star Star
 	Db.Where(Star{
 		StarID:     art.ID,
 		StaredByID: userId,
 	}).First(&star)
+
 	return star.ID != ""
 }
 

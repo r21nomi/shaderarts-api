@@ -25,7 +25,7 @@ func HandleGetArts(app *firebase.App, w http.ResponseWriter, r *http.Request, ps
 	userID, err := getUserID.Execute(app, token)
 
 	if err != nil {
-		http.Error(w, "user id couldn't find: "+err.Error(), 400)
+		http.Error(w, "user id couldn't find: " + err.Error(), 400)
 		return
 	}
 

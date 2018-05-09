@@ -11,6 +11,10 @@ import (
 type GetUserID struct{}
 
 func (g *GetUserID) Execute(app *firebase.App, token string) (string, error) {
+	if token == "" {
+		return "", nil
+	}
+
 	authToken, err := verifyIDToken(app, token)
 
 	if err != nil {
