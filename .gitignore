@@ -4,7 +4,7 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-arto-api
+shaderarts-api
 serviceAccountKey.json
 
 # IntelliJ IDEA

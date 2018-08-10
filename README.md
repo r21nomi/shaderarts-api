@@ -1,2 +1,2 @@
-# arto-api
-API for Arto
+# shaderarts-api
+API for ShaderArts

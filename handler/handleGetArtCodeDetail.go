@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/r21nomi/arto-api/domain"
-	"github.com/r21nomi/arto-api/entity"
+	"github.com/r21nomi/shaderarts-api/domain"
+	"github.com/r21nomi/shaderarts-api/entity"
 )
 
 /**

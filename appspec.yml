@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/go/src/github.com/r21nomi/arto-api
+    destination: /home/ec2-user/go/src/github.com/r21nomi/shaderarts-api
 hooks:
   AfterInstall:
     - location: script/build.sh
