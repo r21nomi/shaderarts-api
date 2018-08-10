@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/r21nomi/arto-api/datastore"
+	"github.com/r21nomi/shaderarts-api/datastore"
 )
 
 type GetUserByID struct{}

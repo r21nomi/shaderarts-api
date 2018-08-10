@@ -8,7 +8,7 @@ import (
 
 	firebase "firebase.google.com/go"
 	"github.com/julienschmidt/httprouter"
-	"github.com/r21nomi/arto-api/handler"
+	"github.com/r21nomi/shaderarts-api/handler"
 	"github.com/rs/cors"
 	"golang.org/x/net/context"
 	"google.golang.org/api/option"

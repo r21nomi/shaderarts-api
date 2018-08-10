@@ -1,6 +1,6 @@
 package entity
 
-import "github.com/r21nomi/arto-api/datastore"
+import "github.com/r21nomi/shaderarts-api/datastore"
 
 type CodeSerializer struct {
 	datastore.Code
